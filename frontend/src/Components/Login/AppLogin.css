@@ -1,0 +1,119 @@
+body {
+  background: white;
+  font-family: sans-serif;
+}
+
+#loginform {
+  border: 1px solid rgb(212, 208, 208);
+  max-width: 500px;
+  min-width: 300px;
+  max-height: 700px;
+  width: 34%;
+  height: 60%;
+  margin: 10% auto;
+  background-color: #ffffff;
+  border-radius: 0.4rem;
+}
+
+#headerTitle {
+  text-align: left;
+  font-family: 'open sans', sans-serif;
+  padding: 0.5rem 0;
+  margin: 0.5em 1em 0.5em 1em;
+  font-size: 1.5rem;
+}
+.form {
+  border: 1px solid;
+  border-color: white;
+  border-top-color: rgb(212, 208, 208);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  max-width: 100%;
+}
+
+.row input {
+  margin-top: 0.5rem;
+  padding-top: 0.7rem;
+  width: 80%;
+  box-sizing: border-box;
+  border: 1px solid rgb(212, 208, 208);
+  font-size: 1.2rem;
+  padding-left: 1.5rem;
+  padding-bottom: 1rem;
+  box-shadow: inset 0px -3px 0px 0px rgba(187, 187, 187, 0.2);
+  transition: box-shadow 0.2s ease-in;
+}
+
+.row input:focus {
+  box-shadow: inset 0px -3px 0px 0px rgba(34, 193, 195, 0.7);
+  outline: none;
+}
+
+.row input::-webkit-input-placeholder {
+  opacity: 1;
+  transition: opacity 0.25s ease-out;
+}
+
+.row input:hover::-webkit-input-placeholder,
+.row input:focus::-webkit-input-placeholder {
+  opacity: 0;
+}
+
+.row label {
+  align-self: start;
+  padding-left: 3.4rem;
+  font-size: 1.3rem;
+  padding-bottom: 0.5rem;
+  color: #076d76;
+}
+
+.row Link {
+  text-decoration: none;
+  border-radius: 0.5rem;
+  width: 30%;
+  height: 40px;
+  font-size: 1.3rem;
+  color: white;
+  font-weight: 700;
+  background: #076d76;
+  border: 0px;
+  cursor: pointer;
+  transition: opacity 0.25s ease-out;
+}
+
+.row button:hover {
+  opacity: 0.8;
+}
+
+#button {
+  padding-bottom: 1.5rem;
+  color: #076d76;
+}
+
+.submitbutton {
+  text-decoration: none;
+  border-radius: 0.5rem;
+  width: 30%;
+  height: 40px;
+  font-size: 1.3rem;
+  color: white;
+  font-weight: 700;
+  background: #076d76;
+  border: 0px;
+  cursor: pointer;
+  transition: opacity 0.25s ease-out;
+  text-align: center;
+}
+.submitbutton:hover {
+  opacity: 0.8;
+}
+.errormsg {
+  color: red;
+  text-align: center;
+  height: 0.001em;
+}

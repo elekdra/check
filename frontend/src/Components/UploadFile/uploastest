@@ -1,0 +1,88 @@
+// useEffect(() => {
+//   let editfileName = document.getElementById('upload-file');
+//   var fileComponents = editfileName.value.split('\\');
+//   if (location.state) {
+//     editfileName.addEventListener('change', function () {
+//       if (location.state) {
+//         if (location.state.FileName === fileComponents[2]) {
+//           console.log('samename');
+//           setEditFile(true);
+//           Check = true;
+//         } else {
+//           console.log('file name is different');
+//           setEditFile(false);
+//         }
+//       }
+//     });
+//   } else {
+//     console.log('new file uploading');
+//     //new file should be uploading
+
+//     CheckUpload = true;
+//   }
+// }, []);
+
+
+// const uploadFiletoServer = () => {
+  //   if (editFile === true) {
+  //     let version = document.querySelector('#version').value;
+  //     let reqmin = document.getElementById('reqmin').value;
+
+  //     if (parseFloat(reqmin) >= 1 && parseFloat(reqmin) < version) {
+  //       if (
+  //         document.getElementById('upload-file').files < 1 ||
+  //         !document.getElementById('upload-file').validity.valid
+  //       ) {
+  //         return;
+  //       }
+  //       fileToBase64(
+  //         document.getElementById('upload-file').files[0],
+  //         (err, result) => {
+  //           if (result) {
+  //             setFile(result);
+  //             setFileName(document.getElementById('upload-file').files[0]);
+  //             let company = document.querySelector('#company').value;
+  //             let training = document.querySelector('#training').value;
+  //             let FileName =
+  //               document.getElementById('upload-file').files[0].name;
+  //             let reqminVersion = document.getElementById('reqmin').value;
+  //             SaveFileToServer(
+  //               result,
+  //               FileName,
+  //               company,
+  //               training,
+  //               version,
+  //               reqminVersion,
+  //               'edit'
+  //             );
+  //           }
+  //         }
+  //       );
+  //     } else {
+  //       alert('Required Minimum version should be less than Version');
+  //     }
+  //   } else {
+  //     let version = document.querySelector('#version').value;
+  //     let company = document.querySelector('#company').value;
+  //     let training = document.querySelector('#training').value;
+  //     let FileName = document.getElementById('upload-file').files[0].name;
+  //     Check = false;
+  //     alert('File Name should be same');
+  //     console.log();
+  //   }
+  // };
+
+  bool found = false;
+   // foreach (var listItem in list)
+   // {
+   //  if (listItem.Training == model.Training && listItem.Version == model.Version && listItem.Company == model.Company)
+   //  {
+   //   listItem.FileContent = path;
+   //   listItem.FileName = model.FileName;
+   //   found = true;
+   //  }
+   // }
+   // if (!found)
+   // {
+   //  list.Add(model);
+   // }

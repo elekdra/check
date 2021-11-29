@@ -1,0 +1,63 @@
+.data-form {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 15% 15% 15% 15% 15%;
+  /* display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        ". . . . . ."
+        ". . . . . ."; */
+  gap: 0em 1em;
+  padding: 2em;
+  margin-left: 14%;
+  margin-right: 10%;
+}
+.data-form select {
+  width: 100%;
+  padding: 0.3em;
+}
+
+.filter-button {
+  color: white;
+  font-size: 1em;
+  background-color: rgb(6, 116, 92);
+  outline: none;
+  border: none;
+  border-radius: 2px;
+  height: 1.7em;
+  margin-left: 18%;
+}
+.filter-button:hover,
+.upload-button:hover {
+  color: white;
+  font-size: 1em;
+  background-color: rgb(12, 71, 58);
+}
+img {
+  height: 20px;
+  width: 20px;
+  vertical-align: bottom;
+}
+Link {
+  height: 3em;
+}
+.data-form input {
+  width: 95%;
+  padding: 0.3em;
+}
+
+.upload-button {
+  color: white;
+  font-size: 1em;
+  background-color: rgb(6, 116, 92);
+  outline: none;
+  border: none;
+  border-radius: 2px;
+  /* height: 1.7em;
+  margin-left: 18%; */
+  padding: 0.3em;
+  text-decoration: none;
+}

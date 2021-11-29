@@ -1,0 +1,21 @@
+.back-button {
+  color: rgb(6, 116, 92);
+  font-size: 1em;
+  background-color: rgb(235, 229, 229);
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 0.8%;
+  margin-left: 18%;
+  margin-top: 2%;
+}
+.back-button:hover {
+  color: rgb(12, 71, 58);
+  font-size: 1em;
+  background-color: rgb(221, 221, 221);
+}
+img {
+  height: 20px;
+  width: 20px;
+  vertical-align: bottom;
+}

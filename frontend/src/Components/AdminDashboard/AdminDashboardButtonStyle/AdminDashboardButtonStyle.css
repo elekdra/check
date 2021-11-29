@@ -1,0 +1,48 @@
+.AdminDashboardButton {
+  display: grid;
+}
+
+.button-body {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 10% 80% 10%;
+  border: 1px solid white;
+  border-bottom-color: rgb(189, 186, 186);
+
+  padding: 0.7em;
+}
+.icon {
+  height: 30px;
+  width: 30px;
+  padding-top: 2.5%;
+}
+.service-title {
+  color: black;
+  padding-left: 2%;
+  font-size: 1.5em;
+  text-decoration: none;
+  border: none;
+  background-color: white;
+}
+.service-title {
+color: black;
+    font-size: 1.5em;
+    background-color: white;
+}
+.service-title-arrow {
+  color: black;
+  padding-right: 10%;
+  text-decoration: none;
+}
+.not-implemented{
+
+    position: absolute;
+    inset: 40px;
+    border: 1px solid rgb(204, 204, 204);
+    background: rgb(255, 255, 255);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+  height:10%;
+} 

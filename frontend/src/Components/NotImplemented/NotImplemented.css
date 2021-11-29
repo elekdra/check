@@ -1,0 +1,13 @@
+.notfound > div > div  {
+    width: 300px !important;
+     padding: 24px !important; 
+    border-radius: 10px;
+    align-items: center;
+    height: 10%;
+    box-sizing: border-box;
+}
+.ReactModal__Content ReactModal__Content--after-open{
+
+inset: 400px;
+
+}

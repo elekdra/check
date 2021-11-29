@@ -1,0 +1,1 @@
+SELECT * FROM document_management.trainingdetails_data;

@@ -1,0 +1,115 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 3rem;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+}
+.logo {
+  position: fixed;
+  left: 80%;
+  width: 40px;
+  height: 3em;
+}
+.navbar-avatar {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 48% 37% 15%;
+  border: 1px transparent white;
+  margin-left: 83%;
+  background-color: rgb(230, 230, 230);
+  border-radius: 2em;
+  width: 8em;
+}
+.avatar {
+  height: 2em;
+  padding-left: 1.2em;
+}
+
+.avatar-user {
+  margin-top: 0;
+  margin-left: 1em;
+  color: #076d76;
+}
+
+.dropbtn {
+  background-color: rgb(230, 230, 230);
+  color: black;
+  margin-top: 0.4em;
+  padding: 1px;
+  font-size: 15px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  margin-top: 1em;
+  display: none;
+  position: absolute;
+  background-color: #076d76;
+  min-width: 40px;
+  box-shadow: 0px 8px 6px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  text-decoration: none;
+}
+
+.dropdown-content a {
+  color: #076d76;
+  text-decoration: none;
+  display: block;
+}
+a {
+  text-decoration: none;
+  color: #076d76;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.logout {
+  background-color: rgb(230, 230, 230);
+  margin-left: -0.8em;
+  border: none;
+  color: #076d76;
+}
