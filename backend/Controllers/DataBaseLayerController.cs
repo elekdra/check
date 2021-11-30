@@ -112,15 +112,17 @@ namespace backend.Controllers
 
   [HttpGet]
   [Route("getFilteredData")]
-  public void GetFilteredList(string filterParameters)
+  public IList<FileModel> GetFilteredList(string filterParameters)
   {
-   //    Console.WriteLine(filterParameters);
+   Console.WriteLine(filterParameters);
    var userDetails = filterParameters.Split("|");
+   Console.WriteLine(userDetails);
 
-   var emptyVersion = "undefined";
+   var emptyVersion = "";
    string cs = @"server=localhost;userid=root;password=fathimaadmin;database=DOCUMENT_MANAGEMENT";
    using var con = new MySqlConnection(cs);
    con.Open();
+//    IDictionary<string, string> companyMap = GetCompanyNameToIdMap(con);
    var Company_ID = "SELECT company.COMPANY_ID FROM DOCUMENT_MANAGEMENT.company WHERE company.COMPANY_NAME=" + @"""" + userDetails[0] + @"""";
    // Console.WriteLine(Company_ID);
    var Training_ID = "SELECT training.Training_ID FROM DOCUMENT_MANAGEMENT.training WHERE training.TRAINING_NAME=" + @"""" + userDetails[2] + @"""";
@@ -128,7 +130,7 @@ namespace backend.Controllers
    using var cmd = new MySqlCommand(Company_ID, con);
 
    using var cmd2 = new MySqlCommand(Training_ID, con);
-
+    if(userDetails[0]!="ALL"){
    using MySqlDataReader rdr1 = cmd.ExecuteReader();
 
    while (rdr1.Read())
@@ -137,8 +139,10 @@ namespace backend.Controllers
     userDetails[0] = rdr1.GetInt32(0).ToString();
 
    }
+    }
    con.Close();
    con.Open();
+   if(userDetails[2]!="ALL"){
    // Console.WriteLine(userDetails[0]);
    using MySqlDataReader rdr2 = cmd2.ExecuteReader();
 
@@ -148,6 +152,7 @@ namespace backend.Controllers
     userDetails[2] = rdr2.GetInt32(0).ToString();
 
    }
+   }
    con.Close();
    // Console.WriteLine(userDetails[2]);
 
@@ -156,55 +161,161 @@ namespace backend.Controllers
 
    if ((userDetails[0] == "ALL") && (userDetails[1] == emptyVersion) && (userDetails[2] == "ALL"))
    {
+        Console.WriteLine("command 1 is :",CommandText);
     CommandText = CommandText;
    }
    else if ((userDetails[0] == "ALL") && (userDetails[1] == emptyVersion) && (userDetails[2] != "ALL"))
    {
+        Console.WriteLine("command 2 is :",CommandText);
     CommandText = CommandText + " WHERE trainingdetails_header.Training_ID=" + userDetails[2];
 
    }
    else if ((userDetails[0] == "ALL") && (userDetails[1] != emptyVersion) && (userDetails[2] == "ALL"))
    {
-    CommandText = CommandText + " WHERE trainingdetails_header.Version=" + userDetails[2];
+        Console.WriteLine("command 3 is :",CommandText);
+    CommandText = CommandText + @" WHERE trainingdetails_header.Version=""" + userDetails[1]+@"""";
    }
    else if ((userDetails[0] == "ALL") && (userDetails[1] != emptyVersion) && (userDetails[2] != "ALL"))
    {
+        Console.WriteLine("command 4 is :",CommandText);
     CommandText = CommandText + " WHERE trainingdetails_header.Version=" + userDetails[1] + " AND trainingdetails_header.Training_ID= " + userDetails[2];
    }
    else if ((userDetails[0] != "ALL") && (userDetails[1] == emptyVersion) && (userDetails[2] == "ALL"))
    {
+        Console.WriteLine("command 5 is :",CommandText);
     CommandText = CommandText + " WHERE trainingdetails_header.Company_ID=" + userDetails[0];
    }
    else if ((userDetails[0] != "ALL") && (userDetails[1] == emptyVersion) && (userDetails[2] != "ALL"))
    {
+        Console.WriteLine("command 6 is :",CommandText);
     CommandText = CommandText + " WHERE trainingdetails_header.Company_ID=" + userDetails[0] + " AND trainingdetails_header.Training_ID= " + userDetails[2];
 
    }
 
    else if ((userDetails[0] != "ALL") && (userDetails[1] != emptyVersion) && (userDetails[2] == "ALL"))
    {
+        Console.WriteLine("command 7 is :",CommandText);
     CommandText = CommandText + " WHERE trainingdetails_header.Company_ID=" + userDetails[0] + " AND trainingdetails_header.Version= " + userDetails[1];
 
    }
 
    else
    {
+        Console.WriteLine("command 8 is :",CommandText);
     CommandText = CommandText + " WHERE trainingdetails_header.Company_ID=" + userDetails[0] + " AND trainingdetails_header.Version= " + userDetails[1] + " AND trainingdetails_header.Training_ID=" + userDetails[2];
 
    }
-
+    
+    IList<FileModel> filteredfileModels = new List<FileModel>();
    con.Open();
+  
    using var cmd3 = new MySqlCommand(CommandText, con);
    using MySqlDataReader rdr = cmd3.ExecuteReader();
+   if(rdr.HasRows){
    while (rdr.Read())
    {
 
-    // Console.WriteLine("{0} {1} {2} {3} {4}  ", rdr.GetInt32(1),
-    // rdr.GetString(2), rdr.GetInt32(3), rdr.GetString(6), rdr.GetString(7));
+        FileModel filteritem = new FileModel();
+       filteritem.FileName = rdr.GetString(8);
+       filteritem.Company = rdr.GetInt32(1).ToString();
+       filteritem.Version = rdr.GetString(2);
+       filteritem.Training = rdr.GetInt32(3).ToString();
+       filteritem.FileContent = rdr.GetString(6);
+       filteritem.MinVersion = rdr.GetString(7);
+       filteritem.Mode = "";
+       filteredfileModels.Add(filteritem);
+    //    Console.WriteLine(filteritem.FileContent);
+    //  Console.WriteLine("{0} {1} {2} {3} {4}  ", rdr.GetInt32(1),
+    //  rdr.GetString(2), rdr.GetInt32(3), rdr.GetString(6), rdr.GetString(7));
+   }
+   }
+   IDictionary<string, string> companyMap = GetCompanyIdToNameMap(con);
+   IDictionary<string, string> trainingMap = GetTrainingIdToNameMap(con);
+   foreach (var model in filteredfileModels)
+   {
+    model.Company = companyMap[model.Company];
+    model.Training = trainingMap[model.Training];
    }
    con.Close();
-
+return filteredfileModels;
   }
+
+ private IDictionary<string, string> GetCompanyIdToNameMap(MySqlConnection con)
+  {
+      con.Close();
+      con.Open();
+   IDictionary<string, string> companyMap = new Dictionary<string, string>();
+   using (MySqlCommand readAllCompaniesCommands = con.CreateCommand())
+   {
+    readAllCompaniesCommands.CommandText = "select * from DOCUMENT_MANAGEMENT.company";
+    using (var reader1 = readAllCompaniesCommands.ExecuteReader())
+    {
+     while (reader1.Read())
+     {
+      companyMap.Add(reader1.GetInt32(0).ToString(), reader1.GetString(1).ToString());
+     }
+    }
+   }
+   return companyMap;
+  }
+
+  private IDictionary<string, string> GetTrainingIdToNameMap(MySqlConnection connection)
+  {
+   IDictionary<string, string> trainingMap = new Dictionary<string, string>();
+   using (MySqlCommand readAllTrainingCommand = connection.CreateCommand())
+   {
+    readAllTrainingCommand.CommandText = "select * from DOCUMENT_MANAGEMENT.training";
+    using (var reader2 = readAllTrainingCommand.ExecuteReader())
+    {
+     while (reader2.Read())
+     {
+      trainingMap.Add(reader2.GetInt32(0).ToString(), reader2.GetString(1).ToString());
+     }
+    }
+   }
+   return trainingMap;
+  }
+
+  private IDictionary<string, string> GetCompanyNameToIdMap(MySqlConnection connection)
+  {
+   IDictionary<string, string> companyMap = new Dictionary<string, string>();
+   using (MySqlCommand readAllCompaniesCommand = connection.CreateCommand())
+   {
+    readAllCompaniesCommand.CommandText = "select * from DOCUMENT_MANAGEMENT.company";
+    using (var reader = readAllCompaniesCommand.ExecuteReader())
+    {
+     while (reader.Read())
+     {
+      string id = reader.GetInt32(0).ToString();
+      string name = reader.GetString(1).ToString();
+      companyMap.Add(name, id);
+     }
+    }
+   }
+   return companyMap;
+  }
+
+  private IDictionary<string, string> GetTrainingNameToIdMap(MySqlConnection connection)
+  {
+   IDictionary<string, string> trainingMap = new Dictionary<string, string>();
+   using (MySqlCommand readAllTrainingCommand = connection.CreateCommand())
+   {
+    readAllTrainingCommand.CommandText = "select * from DOCUMENT_MANAGEMENT.training";
+    using (var reader = readAllTrainingCommand.ExecuteReader())
+    {
+     while (reader.Read())
+     {
+      string id = reader.GetInt32(0).ToString();
+      string name = reader.GetString(1).ToString();
+      trainingMap.Add(name, id);
+     }
+    }
+   }
+   return trainingMap;
+  }
+
+
+
 
   [HttpGet]
   [Route("getFileCheck")]

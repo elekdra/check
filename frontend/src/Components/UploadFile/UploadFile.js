@@ -186,28 +186,28 @@ function UploadFile(props) {
             required
           >
             <option
-              value="file management"
-              selected={props.training === "file management"}
+              value="FILE MANAGEMENT"
+              selected={props.training === "FILE MANAGEMENT"}
             >
-              file management
+              FILE MANAGEMENT
             </option>
             <option
-              value="process management"
-              selected={props.training === "process management"}
+              value="PROCESS MANAGEMENT"
+              selected={props.training === "PROCESS MANAGEMENT"}
             >
-              process management
+           PROCESS MANAGEMENT
             </option>
             <option
-              value="security management"
-              selected={props.training === "security management"}
+              value="SECURITY MANAGEMENT"
+              selected={props.training === "SECURITY MANAGEMENT"}
             >
-              security management
+              SECURITY MANAGEMENT
             </option>
             <option
-              value="device management"
-              selected={props.training === "device management"}
+              value="DEVICE MANAGEMENT"
+              selected={props.training === "DEVICE MANAGEMENT"}
             >
-              device management
+             DEVICE MANAGEMENT
             </option>
           </select>
         </div>

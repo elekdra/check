@@ -12,6 +12,7 @@ import TrainingNames from '../../../ApiServices/TrainingNames';
 function Form(props) {
   const history=useHistory();
   console.log(props.fullfileData);
+  console.log(props.fullFileItem);
   const dataForm = useRef(null);
   const [company,setCompany]=useState("ALL");
   const [version,setVersion]=useState();
@@ -62,7 +63,21 @@ useEffect(() => {
     console.log(company);
     console.log(version);
     console.log(training);
-   FilterData(company,version,training);
+   FilterData(company,version,training).then((response) => {
+    console.log(response);
+    let fullData = response.data;
+    console.group(fullData);
+    fullData.forEach((item) => {
+      console.log(item);
+      let result = item.fileContent.indexOf("files");
+      let tempName=item.fileContent.slice(result+5,item.fileContent.length);
+       console.log(tempName);
+      // let temp = item.FileContent.split('\\');
+       item.fileContent = 'http://localhost:5000/files/' + tempName;
+    });
+    console.log(fullData);
+    props.setFullFileData(fullData);
+  });
     
   }
   return (

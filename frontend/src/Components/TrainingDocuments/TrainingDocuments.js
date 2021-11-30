@@ -24,8 +24,12 @@ const Index = (props) => {
       fullData = response.data;
       console.group(fullData);
       fullData.forEach((item) => {
+        console.log(item);
+        let result = item.fileContent.indexOf("files");
+        let tempName=item.fileContent.slice(result+5,item.fileContent.length);
+         console.log(tempName);
         // let temp = item.FileContent.split('\\');
-        // item.FileContent = 'http://localhost:5000/files/' + temp[7];
+         item.fileContent = 'http://localhost:5000/files/' + tempName;
       });
       console.log(fullData);
       setFullFileData(fullData);
@@ -44,12 +48,13 @@ const Index = (props) => {
         className='doc-header'
         title='Training Documents'
       />
-      <Form item={props} fullfileData={fullfileData} />
+      <Form item={props} fullfileData={fullfileData} setFullFileData={setFullFileData} />
       <DocumentTable
         fullData={fullfileData}
         onDeleted={() => {
           console.log('deleted');
-          StartUpDefaultsValue();
+          //StartUpDefaultsValue();
+          fetchData();
         }}
       />
     </div>

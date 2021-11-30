@@ -74,6 +74,7 @@ namespace backend.Controllers
     var trainingindexCommand = $"select training_index from DOCUMENT_MANAGEMENT.trainingdetails_header where training_id ={trainingMap[model.Training.ToUpper()]} and company_id = {companyMap[model.Company.ToUpper()]} and version={model.Version}";
     Console.WriteLine(trainingindexCommand);
     int trainingindex = -1;
+    Console.WriteLine(path);
     using (var getTrainingIndexCmd = new MySqlCommand(trainingindexCommand, connection))
     {
      using (MySqlDataReader reader = getTrainingIndexCmd.ExecuteReader())
@@ -87,15 +88,25 @@ namespace backend.Controllers
     if (trainingindex >= 0)
     {
      var uploadatindexCommand = @" INSERT INTO DOCUMENT_MANAGEMENT.trainingdetails_data(`Training_index`,`Filepath`,`minimum_version`,`file_name`) values(" + trainingindex + @",""" + path + @""",""" + model.MinVersion + @""",""" + model.FileName + @""")";
+     Console.WriteLine(uploadatindexCommand);
      using var insertTrainingData = new MySqlCommand(uploadatindexCommand, connection);
      insertTrainingData.ExecuteNonQuery();
     }
     else
     {
+        Console.WriteLine(trainingindex);
      var uploadHeader = @" INSERT INTO DOCUMENT_MANAGEMENT.trainingdetails_header(`Company_ID`,`Version`,`Training_ID`) values(" + companyMap[model.Company.ToUpper()] + @",""" + model.Version + @"""," + trainingMap[model.Training.ToUpper()] + @")";
-     using var insertTrainingHeaderCommand = new MySqlCommand(uploadHeader, connection);
+    Console.WriteLine(uploadHeader);
      var indexReadBack = -1;
-     using (MySqlDataReader reader = insertTrainingHeaderCommand.ExecuteReader())
+     using var insertTrainingHeaderCommand = new MySqlCommand(uploadHeader, connection);
+    insertTrainingHeaderCommand.ExecuteNonQuery();
+    var getIndex=$"select training_index from DOCUMENT_MANAGEMENT.trainingdetails_header where training_id ={trainingMap[model.Training.ToUpper()]} and company_id = {companyMap[model.Company.ToUpper()]} and version={model.Version}";
+   
+
+
+using (var getIndexCmd = new MySqlCommand(getIndex, connection))
+    {
+     using (MySqlDataReader reader = getIndexCmd.ExecuteReader())
      {
       while (reader.Read())
       {
@@ -103,6 +114,18 @@ namespace backend.Controllers
        Console.WriteLine(indexReadBack);
       }
      }
+    }
+
+
+
+    //  using (MySqlDataReader reader = insertTrainingHeaderCommand.ExecuteReader())
+    //  {
+    //   while (reader.Read())
+    //   {
+    //    indexReadBack = reader.GetInt32(0);
+    //    Console.WriteLine(indexReadBack);
+    //   }
+    //  }
      var uploadatindexCommand = @" INSERT INTO DOCUMENT_MANAGEMENT.trainingdetails_data(`Training_index`,`Filepath`,`minimum_version`,`file_name`) values(" + indexReadBack + @",""" + path + @""",""" + model.MinVersion + @""",""" + model.FileName + @""")";
      using var insertTrainingDataCmd = new MySqlCommand(uploadatindexCommand, connection);
      insertTrainingDataCmd.ExecuteNonQuery();
@@ -312,6 +335,7 @@ namespace backend.Controllers
        item.MinVersion = reader.GetString(7);
        item.Mode = "";
        fileModels.Add(item);
+       Console.WriteLine(item.FileContent);
       }
      }
     }
