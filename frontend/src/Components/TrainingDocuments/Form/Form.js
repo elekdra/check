@@ -1,52 +1,51 @@
-import React, { useRef ,useState,useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Form.css';
 import filter from '../../../assets/filter.png';
 import upload from '../../../assets/upload.png';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import FilterData from '../../../ApiServices/FilterData';
 import CompanyNames from '../../../ApiServices/CompanyNames';
 import TrainingNames from '../../../ApiServices/TrainingNames';
 
-
 function Form(props) {
-  const history=useHistory();
+  const history = useHistory();
   console.log(props.fullfileData);
-  console.log(props.fullFileItem);
+
   const dataForm = useRef(null);
-  const [company,setCompany]=useState("ALL");
-  const [version,setVersion]=useState();
-  const [training,setTraining]=useState("ALL");
- const [companies,setCompanies]=useState([]);
- const [trainings,setTrainings]=useState([]);
+  const [company, setCompany] = useState('ALL');
+  const [version, setVersion] = useState();
+  const [training, setTraining] = useState('ALL');
+  const [companies, setCompanies] = useState([]);
+  const [trainings, setTrainings] = useState([]);
 
- 
-// company name data api calll
+  // company name data api calll
 
-const fetchCompanyData = () => {CompanyNames().then((value) => {
-  console.log(value.data);
-  let companies=value.data.split("|");
-  console.log(companies);
-  setCompanies(companies);
-});
-}
-useEffect(() => {
- fetchCompanyData();
-}, [])
+  const fetchCompanyData = () => {
+    CompanyNames().then((value) => {
+      console.log(value.data);
+      let companies = value.data.split('|');
+      console.log(companies);
+      setCompanies(companies);
+    });
+  };
+  useEffect(() => {
+    fetchCompanyData();
+  }, []);
 
-// training name data api call
+  // training name data api call
 
-const fetchTrainingData = () => {TrainingNames().then((value) => {
-  console.log(value.data);
-  let trainings=value.data.split("|");
-  
-  setTrainings(trainings);
-});
-}
-useEffect(() => {
- fetchTrainingData();
-}, [])
+  const fetchTrainingData = () => {
+    TrainingNames().then((value) => {
+      console.log(value.data);
+      let trainings = value.data.split('|');
 
+      setTrainings(trainings);
+    });
+  };
+  useEffect(() => {
+    fetchTrainingData();
+  }, []);
 
   function handleChange() {
     console.log(props.item);
@@ -55,30 +54,33 @@ useEffect(() => {
     props.item.setVersion(version);
     history.push('/uploaddocument', {
       fullFileItem: props.fileItems,
-    }
- );
+      companies: companies,
+      trainings: trainings,
+    });
   }
   function handleClick(e) {
     e.preventDefault();
     console.log(company);
     console.log(version);
     console.log(training);
-   FilterData(company,version,training).then((response) => {
-    console.log(response);
-    let fullData = response.data;
-    console.group(fullData);
-    fullData.forEach((item) => {
-      console.log(item);
-      let result = item.fileContent.indexOf("files");
-      let tempName=item.fileContent.slice(result+5,item.fileContent.length);
-       console.log(tempName);
-      // let temp = item.FileContent.split('\\');
-       item.fileContent = 'http://localhost:5000/files/' + tempName;
+    FilterData(company, version, training).then((response) => {
+      console.log(response);
+      let fullData = response.data;
+      console.group(fullData);
+      fullData.forEach((item) => {
+        console.log(item);
+        let result = item.fileContent.indexOf('files');
+        let tempName = item.fileContent.slice(
+          result + 5,
+          item.fileContent.length
+        );
+        console.log(tempName);
+        // let temp = item.FileContent.split('\\');
+        item.fileContent = 'http://localhost:5000/files/' + tempName;
+      });
+      console.log(fullData);
+      props.setFullFileData(fullData);
     });
-    console.log(fullData);
-    props.setFullFileData(fullData);
-  });
-    
   }
   return (
     <form ref={dataForm}>
@@ -100,41 +102,56 @@ useEffect(() => {
         </div>
         <div>
           <div>
-           <select onChange={(e)=>{setCompany(e.target.value)}} id='company'>
-           <option value="ALL" selected={(company=="ALL")}>ALL</option>
-           {
-           companies.map(item => (
-            <option value={item} selected={(company=={item})}>{item}</option>
-          ))}
-          
-            </select> 
-            
-            
-          </div>
-        </div>
-        <div>
-          <div>
-            <input type='text' id='version' onChange={(e)=>{setVersion(e.target.value)}} />
-          </div>
-        </div>
-        <div>
-          <div>
-            <select id='training' onChange={(e)=>{setTraining(e.target.value)}}>
-            <option value="ALL" selected={(training=="ALL")}>ALL</option>
-           {
-           trainings.map(item => (
-            <option value={item} selected={(training=={item})}>{item}</option>
-          ))}
-      
+            <select
+              onChange={(e) => {
+                setCompany(e.target.value);
+              }}
+              id='company'
+            >
+              <option value='ALL' selected={company == 'ALL'}>
+                ALL
+              </option>
+              {companies.map((item) => (
+                <option value={item} selected={company == { item }}>
+                  {item}
+                </option>
+              ))}
             </select>
           </div>
         </div>
         <div>
           <div>
-            <button
-              className='filter-button'
-              onClick={handleClick}
+            <input
+              type='text'
+              id='version'
+              onChange={(e) => {
+                setVersion(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <div>
+          <div>
+            <select
+              id='training'
+              onChange={(e) => {
+                setTraining(e.target.value);
+              }}
             >
+              <option value='ALL' selected={training == 'ALL'}>
+                ALL
+              </option>
+              {trainings.map((item) => (
+                <option value={item} selected={training == { item }}>
+                  {item}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div>
+          <div>
+            <button className='filter-button' onClick={handleClick}>
               <img src={filter} alt='' />
               <span>Filter</span>
             </button>
@@ -142,8 +159,16 @@ useEffect(() => {
         </div>
         <div>
           <div>
-         <button  className='upload-button' onClick={()=>{ handleChange()}} > <img src={upload} alt='' />
-              <span>Upload</span></button>
+            <button
+              className='upload-button'
+              onClick={() => {
+                handleChange();
+              }}
+            >
+              {' '}
+              <img src={upload} alt='' />
+              <span>Upload</span>
+            </button>
           </div>
         </div>
       </div>
