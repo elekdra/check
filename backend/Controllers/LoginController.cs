@@ -15,10 +15,10 @@ namespace backend.Controllers
     [Route("api/[controller]")]
 
 
-    public class DataBaseLayerController : ControllerBase
+    public class LoginController : ControllerBase
     {
         IWebHostEnvironment environment;
-        public DataBaseLayerController(IWebHostEnvironment environment)
+        public LoginController(IWebHostEnvironment environment)
         {
             this.environment = environment;
         }
@@ -37,45 +37,7 @@ namespace backend.Controllers
 
             return con;
         }
-        [HttpGet]
-        [Route("company")]
-        public string GetCompany()
-        {
-            string cs = @"server=localhost;userid=root;password=fathimaadmin;database=DOCUMENT_MANAGEMENT";
-            using var con = new MySqlConnection(cs);
-            con.Open();
-            var CommandText = "SELECT * FROM DOCUMENT_MANAGEMENT.Company";
-            using var cmd = new MySqlCommand(CommandText, con);
-            using MySqlDataReader rdr = cmd.ExecuteReader();
-            var companyNames = "";
-            while (rdr.Read())
-            {
-                // Console.WriteLine("{0} {1}", rdr.GetInt32(0), rdr.GetString(1));
-                companyNames += rdr.GetString(1) + "|";
-            }
-
-
-            return companyNames;
-        }
-        [HttpGet]
-        [Route("training")]
-        public string GetTraining()
-        {
-            string cs = @"server=localhost;userid=root;password=fathimaadmin;database=DOCUMENT_MANAGEMENT";
-            using var con = new MySqlConnection(cs);
-            con.Open();
-            var trainingNames = "";
-            var CommandText = "SELECT * FROM DOCUMENT_MANAGEMENT.Training";
-            using var cmd = new MySqlCommand(CommandText, con);
-            using MySqlDataReader rdr = cmd.ExecuteReader();
-            while (rdr.Read())
-            {
-                // Console.WriteLine("{0} {1}", rdr.GetInt32(0), rdr.GetString(1));
-                trainingNames += rdr.GetString(1) + "|";
-            }
-            // Console.WriteLine(trainingNames);
-            return trainingNames;
-        }
+      
 
         [HttpGet]
         [Route("authenticate")]

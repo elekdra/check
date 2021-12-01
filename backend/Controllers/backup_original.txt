@@ -1,0 +1,46 @@
+ if ((userDetails[0] == "ALL") && (userDetails[1] == emptyVersion || userDetails[1] == "") && (userDetails[2] == "ALL"))
+            {
+                Console.WriteLine("command 1 is :", CommandText);
+                CommandText = CommandText;
+            }
+            else if ((userDetails[0] == "ALL") && (userDetails[1] == emptyVersion || userDetails[1] == "") && (userDetails[2] != "ALL"))
+            {
+                Console.WriteLine("command 2 is :", CommandText);
+                CommandText = CommandText + " WHERE trainingdetails_header.Training_ID=" + userDetails[2];
+
+            }
+            else if ((userDetails[0] == "ALL") && (userDetails[1] != emptyVersion || userDetails[1] != "") && (userDetails[2] == "ALL"))
+            {
+                Console.WriteLine("command 3 is :", CommandText);
+                CommandText = CommandText + @" WHERE trainingdetails_header.Version=""" + userDetails[1] + @"""";
+            }
+            else if ((userDetails[0] == "ALL") && (userDetails[1] != emptyVersion || userDetails[1] != "") && (userDetails[2] != "ALL"))
+            {
+                Console.WriteLine("command 4 is :", CommandText);
+                CommandText = CommandText + " WHERE trainingdetails_header.Version=" + userDetails[1] + " AND trainingdetails_header.Training_ID= " + userDetails[2];
+            }
+            else if ((userDetails[0] != "ALL") && (userDetails[1] == emptyVersion || userDetails[1] == "") && (userDetails[2] == "ALL"))
+            {
+                Console.WriteLine("command 5 is :", CommandText);
+                CommandText = CommandText + " WHERE trainingdetails_header.Company_ID=" + userDetails[0];
+            }
+            else if ((userDetails[0] != "ALL") && (userDetails[1] == emptyVersion || userDetails[1] == "") && (userDetails[2] != "ALL"))
+            {
+                Console.WriteLine("command 6 is :", CommandText);
+                CommandText = CommandText + " WHERE trainingdetails_header.Company_ID=" + userDetails[0] + " AND trainingdetails_header.Training_ID= " + userDetails[2];
+
+            }
+
+            else if ((userDetails[0] != "ALL") && (userDetails[1] != emptyVersion || userDetails[1] != "") && (userDetails[2] == "ALL"))
+            {
+                Console.WriteLine("command 7 is :", CommandText);
+                CommandText = CommandText + " WHERE trainingdetails_header.Company_ID=" + userDetails[0] + " AND trainingdetails_header.Version= " + userDetails[1];
+
+            }
+
+            else
+            {
+                Console.WriteLine("command 8 is :", CommandText);
+                CommandText = CommandText + " WHERE trainingdetails_header.Company_ID=" + userDetails[0] + " AND trainingdetails_header.Version= " + userDetails[1] + " AND trainingdetails_header.Training_ID=" + userDetails[2];
+
+            }
